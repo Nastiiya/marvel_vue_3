@@ -1,9 +1,13 @@
 <template>
   <div>
-    <my-input
-        placeholder="Searing..." v-model="searchQuery"/>
+    <div>
+      <my-input placeholder="Searing..." v-model="searchQuery"/>
+      <my-button @click="searchHeroes">Search</my-button>
+    </div>
+
     <div class="app__btn">
-      <my-select v-bind:options="sortOptions" v-model:optionValue="selectedSort"/>
+      <my-select v-bind:options="sortOptions"
+                 v-model:optionValue="selectedSort"/>
     </div>
 
     <hero-grid v-bind:heroes="heroes"/>
@@ -37,6 +41,7 @@ export default {
       totalPage: 0,
 
       searchQuery: "",
+      usedSearchQuery: "",
       selectedSort: "",
       sortOptions: [
         {value: "title", name: "Sort by name"},
@@ -53,15 +58,19 @@ export default {
         const timestamp = Date.now();
         const secretString = timestamp + this.privateKey + this.publicKey;
         setTimeout(async () => {
-          const response = await axios.get('https://gateway.marvel.com:443/v1/public/characters', {
-            params: {
-              apikey: this.publicKey,
-              ts: timestamp,
-              hash: md5(secretString),
-              limit: this.limitPosts,
-              offset: this.limitPosts * (this.currentPage - 1)
-            }
-          });
+          let parameters = {
+            apikey: this.publicKey,
+            ts: timestamp,
+            hash: md5(secretString),
+            limit: this.limitPosts,
+            offset: this.limitPosts * (this.currentPage - 1),
+          };
+
+          if (this.usedSearchQuery !== "") {
+            parameters["nameStartsWith"] = this.usedSearchQuery;
+          }
+
+          const response = await axios.get('https://gateway.marvel.com:443/v1/public/characters', {params: parameters});
           this.heroes = [...this.heroes, ...response.data.data.results];
           console.log(this.heroes)
           this.totalPage = Math.ceil(response.data.data.total / this.limitPosts)
@@ -69,6 +78,14 @@ export default {
       } catch (e) {
         alert("Error")
       }
+    },
+
+    searchHeroes(event) {
+      this.currentPage = 0;
+      this.heroes = [];
+      this.usedSearchQuery = this.searchQuery;
+      console.log("here")
+      // this.fetchHeroes()
     }
   },
 

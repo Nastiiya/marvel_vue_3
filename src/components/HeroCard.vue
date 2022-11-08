@@ -1,9 +1,8 @@
 <template>
-  <div class="hero-card">
+  <div :style='btnStyles' class="hero-card">
     <div>
-      <div>{{hero.id}}</div>
+      <div >{{hero.id}}</div>
       <div><strong>Name :</strong>{{ hero.name }}</div>
-      <div><strong>Description :</strong>{{ hero.description }}</div>
     </div>
 
     <div class="hero__btns">
@@ -20,22 +19,32 @@ export default {
       type: Object,
       required: true,
     }
-  }
+  },
+  data() {
+    return {
 
+    }
+  },
+  computed: {
+    btnStyles() {
+      return {
+        "background-image": `url(${this.hero.thumbnail.path}/portrait_uncanny.${this.hero.thumbnail.extension})`,
+        height: `200px`
+      };
+    }
+  }
 }
 </script>
 
 <style scoped>
 .hero-card {
-  padding: 15px;
-  border: 2px solid rosybrown;
-  margin-top: 15px;
-  /*display: flex;*/
+  border: 2px solid black;
   align-items: center;
-  /*justify-content: space-between;*/
+
 }
 
 .hero__btns{
   display: flex;
 }
+
 </style>
