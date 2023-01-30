@@ -1,18 +1,21 @@
 <template>
-  <div>
-    <div>
-      <my-input placeholder="Searing..." v-model="searchQuery"/>
-      <my-button @click="searchHeroes">Search</my-button>
+  <div class="header">
+    <div class="header__search">
+      <my-input  v-model="searchQuery"/>
+      <my-button class="header__btn" @click="searchHeroes">
+        <font-awesome-icon class="header__icon" icon="fa-solid fa-magnifying-glass" />
+      </my-button>
     </div>
-
-    <div class="app__btn">
-      <my-select v-bind:options="sortOptions"
-                 v-model:optionValue="selectedSort"/>
-    </div>
-
-    <hero-grid v-bind:heroes="heroes"/>
-    <div v-intersection="fetchHeroes" class="observer"></div>
+<!--    <div class="header__btn">-->
+<!--      &lt;!&ndash;      <my-select v-bind:options="sortOptions"&ndash;&gt;-->
+<!--      &lt;!&ndash;                 v-model:optionValue="selectedSort"/>&ndash;&gt;-->
+<!--    </div>-->
   </div>
+
+
+
+    <hero-grid class="grid" v-bind:heroes="heroes"/>
+    <div v-intersection="fetchHeroes" class="observer"></div>
 </template>
 
 <script>
@@ -40,13 +43,6 @@ export default {
       limitPosts: 20,
       totalPage: 0,
 
-      searchQuery: "",
-      usedSearchQuery: "",
-      selectedSort: "",
-      sortOptions: [
-        {value: "title", name: "Sort by name"},
-        {value: "body", name: "Sort by body"}
-      ]
     }
   },
 
@@ -54,27 +50,23 @@ export default {
     async fetchHeroes() {
       try {
         this.currentPage += 1;
-
         const timestamp = Date.now();
         const secretString = timestamp + this.privateKey + this.publicKey;
-        setTimeout(async () => {
-          let parameters = {
-            apikey: this.publicKey,
-            ts: timestamp,
-            hash: md5(secretString),
-            limit: this.limitPosts,
-            offset: this.limitPosts * (this.currentPage - 1),
-          };
+        let parameters = {
+          apikey: this.publicKey,
+          ts: timestamp,
+          hash: md5(secretString),
+          limit: this.limitPosts,
+          offset: this.limitPosts * (this.currentPage - 1),
+        };
 
-          if (this.usedSearchQuery !== "") {
-            parameters["nameStartsWith"] = this.usedSearchQuery;
-          }
+        if (this.usedSearchQuery !== "") {
+          parameters["nameStartsWith"] = this.usedSearchQuery;
+        }
 
-          const response = await axios.get('https://gateway.marvel.com:443/v1/public/characters', {params: parameters});
-          this.heroes = [...this.heroes, ...response.data.data.results];
-          console.log(this.heroes)
-          this.totalPage = Math.ceil(response.data.data.total / this.limitPosts)
-        }, 1000)
+        const response = await axios.get('https://gateway.marvel.com:443/v1/public/characters', {params: parameters});
+        this.heroes = [...this.heroes, ...response.data.data.results];
+        this.totalPage = Math.ceil(response.data.data.total / this.limitPosts)
       } catch (e) {
         alert("Error")
       }
@@ -84,8 +76,6 @@ export default {
       this.currentPage = 0;
       this.heroes = [];
       this.usedSearchQuery = this.searchQuery;
-      console.log("here")
-      // this.fetchHeroes()
     }
   },
 
@@ -94,11 +84,6 @@ export default {
 
   },
 
-  watch: {
-    selectedSort(value) {
-      console.log(value)
-    }
-  },
   computed: {}
 }
 </script>
@@ -106,14 +91,9 @@ export default {
 
 <style>
 
-.app__btn {
-  display: flex;
-  justify-content: space-between;
-  margin: 15px 0;
-}
-
 .observer {
   height: 30px;
   background: rosybrown;
+  width: 100%;
 }
 </style>

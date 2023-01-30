@@ -6,7 +6,6 @@ export default {
         }
         const callback = (entries, observer)=>{
           if (entries[0].isIntersecting) {
-            console.log("crossed")
             binding.value()
           }
           /* Content excerpted, show below */

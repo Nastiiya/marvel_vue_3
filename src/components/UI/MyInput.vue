@@ -1,8 +1,5 @@
 <template>
-    <div>
-      <input v-bind:value="modelValue" @input="updateInput" class="input" type="text">
-    </div>
-
+      <input  placeholder="Searing..." v-bind:value="modelValue" @input="updateInput" class="input" type="text">
 </template>
 
 <script>
@@ -22,16 +19,7 @@ export default {
 }
 </script>
 
-<style scoped>
-.input {
-  /*width: 100%;*/
-  border: 2px solid rosybrown;
-  padding: 10px;
-  margin-top: 10px;
-}
+<style>
 
-/*.header{*/
-/*  background-image: url('~@/assets/marvel-header.jpeg');*/
-/*}*/
 
 </style>

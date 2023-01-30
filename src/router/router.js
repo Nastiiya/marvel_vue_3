@@ -3,6 +3,7 @@ import {createRouter, createWebHistory} from "vue-router/dist/vue-router";
 import HeroesPage from "@/pages/HeroesPage";
 import About from "@/pages/About";
 import HeroPage from "@/pages/HeroPage";
+import ComicsPage from "@/pages/ComicsPage";
 
 const routes = [
     {
@@ -23,7 +24,14 @@ const routes = [
     {
         path: '/hero/:id',
         component: HeroPage
-    }
+    },
+
+    {
+        path: '/comics/:id',
+        component: ComicsPage
+    },
+
+
 ]
 
 const router = createRouter({

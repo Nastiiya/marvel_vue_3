@@ -11,13 +11,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
-.btn {
-  padding: 10px 15px;
-  background: none;
-  color: rosybrown;
-  border: 2px solid rosybrown;
-}
 
 </style>

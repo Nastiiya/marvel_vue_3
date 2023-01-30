@@ -1,0 +1,57 @@
+.navbar {
+  width: 100%;
+  background-color: black;
+  box-shadow: 2px 2px 4px gray;
+  align-items: center;
+  //padding: 10px 20px;
+  position: relative;
+  color: white;
+}
+
+.navbar-desktop{
+  display: flex;
+  padding: 10px 20px;
+
+  &__btns{
+    margin-left: auto;
+  }
+
+  &__logo {
+    width: 100px;
+  }
+
+}
+
+.navbar-mobile{
+  &__list{
+    position: absolute;
+    top: 0px;
+    z-index: -1;
+    width: 100%;
+    background-color: black;
+    color: #e62429 ;
+    text-transform: uppercase;
+    transition: 1s cubic-bezier(0,.53,.38,.99)
+
+  }
+
+  &__icon{
+    color: white;
+    cursor: pointer;
+    font-size: 30px;
+    padding: 10px;
+  }
+}
+
+li{
+  padding: 15px 10px;
+
+  &:hover{
+    color: white;
+  }
+}
+
+.open{
+  transform: translateY(50px);
+  z-index: 2;
+}
